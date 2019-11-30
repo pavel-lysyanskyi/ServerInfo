@@ -94,7 +94,6 @@ public class ServerInfoPlugin implements Plugin, Component, PropertyEventListene
 	public void initializePlugin(PluginManager manager, File pluginDirectory) {
 	
 		Log.info("ServerInfo - Starting plugin.");
-		Log.debug("ServerInfo - Starting plugin.");
 
 		pluginManager = manager;
 		sessionManager = SessionManager.getInstance();
@@ -117,14 +116,12 @@ public class ServerInfoPlugin implements Plugin, Component, PropertyEventListene
 		PropertyEventDispatcher.addListener(this);
 
 		Log.info("ServerInfo - Starting bind on port " + serverInfoPort + ".");
-		Log.debug("ServerInfo - Starting bind on port " + serverInfoPort + ".");
 		ofd_srv.startServer();
 	}
 
 	public void destroyPlugin() {
 
 		Log.info("ServerInfo - Closing plugin.");
-		Log.debug("ServerInfo - Closing plugin.");
 
 		PropertyEventDispatcher.removeListener(this);
 		// Unregister component.
@@ -148,12 +145,10 @@ public class ServerInfoPlugin implements Plugin, Component, PropertyEventListene
 		sessionManager = null;
 
 		Log.info("ServerInfo - Closing thread.");
-		Log.debug("ServerInfo - Closing thread.");
 		clientConnect();
 		ServerInfoPlugin.NotExit=false;
 		ServerInfoPlugin.ofThread.stop();
 		Log.info("ServerInfo - Thread closed.");
-		Log.debug("ServerInfo - Thread closed.");
 	}
 
         public void setPort(String port) {
@@ -181,19 +176,16 @@ public class ServerInfoPlugin implements Plugin, Component, PropertyEventListene
 	public void shutdown() {
 
  		Log.info("ServerInfo - Shutdown thread.");
- 		Log.debug("ServerInfo - Shutdown thread.");
 		clientConnect();
 		ServerInfoPlugin.NotExit=false;
 		ServerInfoPlugin.ofThread.stop();
 		Log.info("ServerInfo - Thread closed.");
-		Log.debug("ServerInfo - Thread closed.");
 	}
 
 	public void clientConnect() {
 
 		try {
 			Log.info("ServerInfo - Making local connection.");
-			Log.debug("ServerInfo - Making local connection no port " + serverInfoPort + ".");
 			Socket clientSocket = new Socket(serverInfoIP,Integer.parseInt(serverInfoPort));
 			DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
 			
@@ -275,9 +267,7 @@ public class ServerInfoPlugin implements Plugin, Component, PropertyEventListene
 		   	String body = message.getBody();
 			String xmppdomain = "@" + JiveGlobals.getProperty("xmpp.domain");
 
-			Log.debug("ServerInfo - Message received");
-			Log.debug("ServerInfo - Original message from: " + to);
-			Log.debug("ServerInfo - Original message body: " + body);
+			Log.debug("ServerInfo - Message received from: " + to + " body: " + body);
 
 			MyMessage_OF MyMsg = new MyMessage_OF();
 			String text = MyMsg.returnMessage(body);
@@ -567,7 +557,6 @@ class OFD_Server {
 	ServerInfoPlugin.ofThread = new Thread(serverTask);
 	ServerInfoPlugin.ofThread.start();
 	Log.info("ServerInfo - Thread Created.");
-	Log.debug("ServerInfo - Thread Created.");
 
 	}
 
@@ -610,16 +599,12 @@ class MyMessage_OF {
 			msgTot = 0;
 
 			Collection<User> users = userManager.getUsers();
-
-			for (User u : users) {
-				msgTot = msgTot + 1;
-			}
-
+			msgTot = users.size();
 		}
 
 		else if ( message.equals("version") ) {
 
-			msg="ServerInfo version 0.4.1";
+			msg="ServerInfo version 0.4.2";
 		}
 
 		else if ( message.equals("openfire version") ) {

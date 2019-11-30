@@ -7,7 +7,7 @@
    <author>Marcelo Hartmann Terres</author>
    <version>0.4.2</version>
    <date>08/30/2015</date>
-   <minServerVersion>4.4.0</minServerVersion>
+   <minServerVersion>3.10.0</minServerVersion>
 
    <adminconsole>
         <tab id="tab-server">
